@@ -28,7 +28,7 @@ def build_model(sequence_length, chars):
     model.add(Activation('softmax'))
 
     optimizer = RMSprop(lr=0.01)
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
     return model
 
 
