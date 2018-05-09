@@ -6,14 +6,20 @@
 
 from __future__ import print_function
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 import xml.etree.ElementTree as ET
 import helper
 import numpy as np
 import random
 import sys
+import tensorflow as tf
 from keras.models import load_model
 from keras.callbacks import Callback
 from bisect import bisect_left
+
+tf.logging.set_verbosity(tf.logging.ERROR)
 
 """
     Define global variables.
