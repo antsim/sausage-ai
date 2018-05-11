@@ -98,8 +98,10 @@ X, y = helper.vectorize(sequences, SEQUENCE_LENGTH, chars, char_to_index, next_c
 modelFile = Path("model.h5")
 if modelFile.is_file():
     model = load_model("model.h5")
+    model.summary()
+    PrintResults()
 else:
     model = helper.build_model(SEQUENCE_LENGTH, chars)
+    model.summary()
 
-model.summary()
 model.fit(X, y, 128, EPOCHS, callbacks=[TestCallback()])
