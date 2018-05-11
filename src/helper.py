@@ -9,6 +9,7 @@ from keras.layers import Dense, Activation, Dropout
 from keras.layers import LSTM
 from keras.optimizers import RMSprop
 import io
+import sys
 import numpy as np
 
 
@@ -18,6 +19,9 @@ def create_sequences(text, sequence_length, step):
     for i in range(0, len(text) - sequence_length, step):
         sequences.append(text[i: i + sequence_length])
         next_chars.append(text[i + sequence_length])
+        #sys.stdout.write(text[i + sequence_length])
+        #sys.stdout.write("\r\n \r\n")
+        #sys.stdout.flush()
     return sequences, next_chars
 
 
@@ -66,4 +70,6 @@ def vectorize(sequences, sequence_length, chars, char_to_index, next_chars):
             X[i, t, char_to_index[char]] = 1
         y[i, char_to_index[next_chars[i]]] = 1
 
+    #sys.stdout.write(np.array_str(X))
+    #sys.stdout.flush()
     return X, y

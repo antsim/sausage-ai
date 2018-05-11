@@ -15,6 +15,7 @@ import numpy as np
 import random
 import sys
 import tensorflow as tf
+from pathlib import Path
 from keras.models import load_model
 from keras.callbacks import Callback
 from bisect import bisect_left
@@ -36,6 +37,9 @@ sentence = corpus[0:SEQUENCE_LENGTH]
 SENTENCE = sentence
 
 print("using sentence: " + sentence)
+
+def SaveModel():
+    model.save("model.h5")
 
 def PrintResults():
     for diversity in [0.5, 1.0, 1.2]:
@@ -67,6 +71,7 @@ def PrintResults():
 class TestCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
         PrintResults()
+        SaveModel()
 
 """
     Read the corpus and get unique characters from the corpus.
@@ -89,5 +94,12 @@ X, y = helper.vectorize(sequences, SEQUENCE_LENGTH, chars, char_to_index, next_c
 """
     Define the structure of the model.
 """
-model = helper.build_model(SEQUENCE_LENGTH, chars)
+
+modelFile = Path("model.h5")
+if modelFile.is_file():
+    model = load_model("model.h5")
+else:
+    model = helper.build_model(SEQUENCE_LENGTH, chars)
+
+model.summary()
 model.fit(X, y, 128, EPOCHS, callbacks=[TestCallback()])
