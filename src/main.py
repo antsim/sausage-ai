@@ -19,6 +19,8 @@ from pathlib import Path
 from keras.models import load_model
 from keras.callbacks import Callback
 from bisect import bisect_left
+from os.path import splitext
+from os.path import basename
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 
@@ -39,7 +41,7 @@ SENTENCE = sentence
 print("using sentence: " + sentence)
 
 def SaveModel():
-    model.save("model.h5")
+    model.save(corpusFile[0]+".h5")
 
 def PrintResults():
     for diversity in [0.5, 1.0, 1.2]:
@@ -94,10 +96,10 @@ X, y = helper.vectorize(sequences, SEQUENCE_LENGTH, chars, char_to_index, next_c
 """
     Define the structure of the model.
 """
-
-modelFile = Path("model.h5")
+corpusFile = splitext(basename(Path(PATH_TO_CORPUS)))
+modelFile = Path(corpusFile[0]+".h5")
 if modelFile.is_file():
-    model = load_model("model.h5")
+    model = load_model(corpusFile[0]+".h5")
     model.summary()
     PrintResults()
 else:
