@@ -34,7 +34,7 @@ def sample(preds, temperature=1.0):
         temperature = 1
 
     """
-        Zero values in preds, give an error when used inside np.log
+        Zero values in preds give an error when used inside np.log
     """
     preds[preds == 0] = 1
 
